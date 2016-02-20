@@ -22,15 +22,19 @@ public class Note {
 	@DatabaseField(columnName = "author")
 	private String author;
 	
+	@DatabaseField(columnName = "color")
+	private String color;
+	
 	public Note() {
 		
 	}
 	
-	public Note(long id, String message, String author) {
+	public Note(long id, String message, String author, String color) {
 		this.id = id;
 		this.message = message;
 		this.created = new Date();
 		this.author = author;
+		this.color = color;
 	}
 	
 	public long getId() {
@@ -56,6 +60,12 @@ public class Note {
 	}
 	public void setAuthor(String author) {
 		this.author = author;
+	}
+	public String getColor() {
+		return this.color;
+	}
+	public void setColor(String color) {
+		this.color = color;
 	}
 	
 	

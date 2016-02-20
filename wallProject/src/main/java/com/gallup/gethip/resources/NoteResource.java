@@ -42,24 +42,37 @@ public class NoteResource {
 	}
 	
 	@PUT
+	@Path("/{note_id}")
     @Produces("text/plain")
     @Consumes("application/json")
-	public String updateNote(Note message) {
+	public String updateNote(@PathParam("note_id") String id, Note message) {
+		Note note = null;
+    	try {
+			note = getDao().queryForId(id);
+			if(note == null){
+				System.out.println("Error: Note not found.");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("Error.");
+		}
 		try {
+			message.setId(Long.parseLong(id));
 			int num = getDao().update(message);
 			if(num == 1){
 				return "Update successful for note " + message.getId();
 			}else{
-				return "Could not update note" + message.getId();
+				return "Could not update note id: " + message.getId();
 			}
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
-			return "Error updating " + message.getId();
+			return "Error updating note id: " + message.getId();
 		}
 	}
 	
 	@DELETE
+	@Path("/{note_id}")
 	@Produces("text/plain")
 	public String removeNote(@QueryParam("note_id") String note) {
 		try {
@@ -84,7 +97,7 @@ public class NoteResource {
     	try {
 			note = getDao().queryForId(note_id);
 			if(note == null){
-				System.out.println("Error: Profile not found.");
+				System.out.println("Error: Note not found.");
 			}else{
 				return note;
 			}
